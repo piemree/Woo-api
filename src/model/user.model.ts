@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../config/default";
-
+import log from "../logger";
 export interface UserDocument extends mongoose.Document {
   email: string;
   name: string;
@@ -27,13 +27,19 @@ UserSchema.methods.comparePassword = async function (
   return await bcrypt.compare(candidatePassword, user.password);
 };
 
-UserSchema.pre("save", async function (next:mongoose.HookNextFunction) {
+UserSchema.pre("save", async function (next: mongoose.HookNextFunction) {
   const user = this as UserDocument;
 
-  const hashedPassword = await bcrypt.hash(user.password, 8);
+  try {
+    const salt = await bcrypt.genSalt(8);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
 
-  user.password = hashedPassword;
-  next()
+    user.password = hashedPassword;
+  return  next();
+  } catch (error) {
+    log.error(error);
+    return
+  }
 });
 const User = mongoose.model<UserDocument>("User", UserSchema);
 
