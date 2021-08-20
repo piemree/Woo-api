@@ -9,6 +9,7 @@ export default function connect() {
     .connect(dbUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     })
     .then(() => {
       log.info("databaser connected");
