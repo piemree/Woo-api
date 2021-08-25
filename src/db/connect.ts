@@ -10,6 +10,7 @@ export default function connect() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false
     })
     .then(() => {
       log.info("databaser connected");

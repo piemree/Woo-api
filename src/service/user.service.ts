@@ -25,13 +25,31 @@ export async function validateUser({
 
   if (!isValid) return false;
 
-  return omit(user.toJSON(),"password")
-
+  return omit(user.toJSON(), "password");
 }
 
 export async function findUser(query: FilterQuery<UserDocument>) {
-  return User.findOne(query).lean();
+  return await User.findOne(query).lean();
 }
+
+export async function findAllUsers() {
+  return await User.find().lean();
+}
+
+export async function updateUser(
+  id: string,
+  input: Omit<
+    UserDocument,
+    "_id" | "password" | "createdAt" | "updatedAt" | "__v"
+  >
+) {
+  return User.findByIdAndUpdate(id, input, { new: true }).lean();
+}
+
+export async function deleteUser(id: string) {
+  return User.findByIdAndDelete(id).lean();
+}
+
 export async function validatePassword({
   email,
   password,
