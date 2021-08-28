@@ -1,13 +1,22 @@
 import express from "express";
-import { createUserSessionHandler } from "../controller/session.controller";
-import validateRequest from "../middleware/validateRequest";
+import {
+  createUserSessionHandler,
+  getUserSessionsHandler,
+  invalidateUserSessionHandler,
+} from "../controller/session.controller";
+import { validateRequest, requireUser } from "../middleware";
 import { createSessionSchema } from "../schema/session.schema";
 const router = express.Router();
 
 router.post(
-  "/api/sessions",
+  "/new",
   validateRequest(createSessionSchema),
   createUserSessionHandler
 );
+
+  router.get("/find", requireUser, getUserSessionsHandler);
+
+  router.delete("/delete", requireUser, invalidateUserSessionHandler);
+
 
 export default router;

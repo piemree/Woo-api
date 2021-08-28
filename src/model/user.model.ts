@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import config from "../config/default";
 import log from "../logger";
 export interface UserDocument extends mongoose.Document {
   email: string;

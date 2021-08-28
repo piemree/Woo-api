@@ -18,8 +18,8 @@ export function createAccessToken({
     | Omit<UserDocument, "passport">
     | LeanDocument<Omit<UserDocument, "password">>;
   session:
-    | Omit<SessionDocument, "passport">
-    | LeanDocument<Omit<SessionDocument, "password">>;
+    | SessionDocument
+    | LeanDocument<SessionDocument>;
 }) {
   const accessToken = sign(
     { ...user, session: session._id }
@@ -63,3 +63,4 @@ export async function updateSession(
 export async function findSessions(query: FilterQuery<SessionDocument>) {
   return Session.find(query).lean();
 }
+

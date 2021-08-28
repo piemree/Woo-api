@@ -3,7 +3,7 @@ import sessionRoutes from "./session.routes";
 import userRoutes from "./user.routes";
 
 export default function (app: Express) {
-  app.get("/healthcheck", (req: Request, res: Response) => {
+  app.get("/", (req: Request, res: Response) => {
     res.status(200).send("hello word");
   });
 

@@ -26,3 +26,4 @@ router.put("/update/:id", validateRequest(updateUserSchema), updateUserHandler);
 router.delete("/delete/:id", validateRequest(deleteUserSchema), deleteUserHandler);
 
 export default router;
+
